@@ -1,5 +1,9 @@
 package clientPart;
 
+import dto.Coordinates;
+import dto.Route;
+import dto.locations.locationFrom.Location;
+
 import java.util.Scanner;
 
 public class InputData {
@@ -7,62 +11,128 @@ public class InputData {
 
     //Ввод значений каждого поля объекта
     public static String InputName() {
-        System.out.println("Enter name:");
-        return scanner.nextLine();
+        try {
+            System.out.println("Enter name:");
+            return Route.checkName(scanner.nextLine().trim());
+        }
+        catch (NumberFormatException e){
+            System.out.println("Invalid format of field 'name'");
+            return InputName();
+        }
     }
 
     public static String InputLocationName() {
-        System.out.println("Enter Location name:");
-        return scanner.nextLine();
+        try {
+            System.out.println("Enter Location name:");
+            return dto.locations.locationTo.Location.checkName(scanner.nextLine().trim());
+        }
+        catch (NumberFormatException e){
+            System.out.println("Invalid format of Location's field 'name'");
+            return InputLocationName();
+        }
     }
 
     public static Object InputLocationFromX() {
-        System.out.println("Enter Location coordinate x: (optional, press Enter to skip input Location)");
-        String input = scanner.nextLine();
-        if (input.equals("")) {
-            return "none";
-        } else {
-            return Float.parseFloat(input);
+        try {
+            System.out.println("Enter Location coordinate x: (optional, press Enter to skip input Location)");
+            String input = scanner.nextLine().trim();
+            if (input.equals("")) {
+                return "none";
+            } else {
+                return Float.parseFloat(input);
+            }
+        }
+        catch (NumberFormatException e){
+            System.out.println("Invalid format of Location's field 'x'");
+            return InputLocationFromX();
         }
     }
 
     public static double InputLocationFromY() {
-        System.out.println("Enter Location coordinate y:");
-        return Double.parseDouble(scanner.nextLine());
+        try {
+            System.out.println("Enter Location coordinate y:");
+            return Double.parseDouble(scanner.nextLine().trim());
+        }
+        catch (NumberFormatException e){
+            System.out.println("Invalid format of Location's field 'y'");
+            return InputLocationFromY();
+        }
     }
 
     public static Integer InputLocationFromZ() {
-        System.out.println("Enter Location coordinate z:");
-        return Integer.parseInt(scanner.nextLine());
+        try {
+            System.out.println("Enter Location coordinate z:");
+            return Location.checkZ(Integer.parseInt(scanner.nextLine().trim()));
+        }
+        catch (NumberFormatException e){
+            System.out.println("Invalid format of Location's field 'z'");
+            return InputLocationFromZ();
+        }
     }
 
     public static Integer InputLocationToX() {
-        System.out.println("Enter Location coordinate x:");
-        return Integer.parseInt(scanner.nextLine());
+        try {
+            System.out.println("Enter Location coordinate x:");
+            return dto.locations.locationTo.Location.checkX(Integer.parseInt(scanner.nextLine().trim()));
+        }
+        catch (NumberFormatException e){
+            System.out.println("Invalid format of Location's field 'x'");
+            return InputLocationToX();
+        }
     }
 
     public static long InputLocationToY() {
-        System.out.println("Enter Location coordinate y:");
-        return Long.parseLong(scanner.nextLine());
+        try {
+            System.out.println("Enter Location coordinate y:");
+            return Long.parseLong(scanner.nextLine().trim());
+        }
+        catch (NumberFormatException e){
+            System.out.println("Invalid format of Location's field 'y'");
+            return InputLocationToY();
+        }
     }
 
     public static float InputLocationToZ() {
-        System.out.println("Enter Location coordinate z:");
-        return Float.parseFloat(scanner.nextLine());
+        try {
+            System.out.println("Enter Location coordinate z:");
+            return Float.parseFloat(scanner.nextLine().trim());
+        }
+        catch (NumberFormatException e){
+            System.out.println("Invalid format of Location's field 'z'");
+            return InputLocationToZ();
+        }
     }
 
     public static long InputCoordinatesX() {
-        System.out.println("Enter Coordinates x:");
-        return Long.parseLong(scanner.nextLine());
+        try {
+            System.out.println("Enter Coordinates x:");
+            return Coordinates.checkX(Long.parseLong(scanner.nextLine().trim()));
+        }
+        catch (NumberFormatException e){
+            System.out.println("Invalid format of Coordinate's field 'x'");
+            return InputCoordinatesX();
+        }
     }
 
     public static Integer InputCoordinatesY() {
-        System.out.println("Enter Coordinates y:");
-        return Integer.parseInt(scanner.nextLine());
+        try {
+            System.out.println("Enter Coordinates y:");
+            return Coordinates.checkY(Integer.parseInt(scanner.nextLine().trim()));
+        }
+        catch (NumberFormatException e){
+            System.out.println("Invalid format of Coordinate's field 'y'");
+            return InputCoordinatesY();
+        }
     }
 
     public static Integer InputDistance() {
-        System.out.println("Enter Distance:");
-        return Integer.parseInt(scanner.nextLine());
+        try {
+            System.out.println("Enter Distance:");
+            return Route.checkDistance(Integer.parseInt(scanner.nextLine().trim()));
+        }
+        catch (NumberFormatException e){
+            System.out.println("Invalid format of field 'distance'");
+            return InputDistance();
+        }
     }
 }

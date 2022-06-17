@@ -51,7 +51,7 @@ public class Parser {
                 sizeIsNull = true;
             }
             for (i = 0; i < list.size(); i++) {
-                String[] data = list.get(i).split(",");
+                String[] data = list.get(i).trim().split(",");
                 if (data.length == 13) {
                     Manager.routes.add(new Route(Route.checkId(Long.parseLong(data[0])), Route.checkName(data[1]),
                             Route.checkCoordinate(new Coordinates(Coordinates.checkX(Long.parseLong(data[2])),
