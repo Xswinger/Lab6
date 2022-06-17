@@ -24,7 +24,6 @@ public class SaveCommand implements CommandManualNoParameters {
      */
     @Override
     public List<Message> executeManual() throws IOException {
-        return new ArrayList<>(Collections.singleton(new Message(1, 1,
-                Parser.InFile(routes, savingFile))));
+        return new ArrayList<>(Collections.singleton(Parser.InFile(routes, savingFile)));
     }
 }

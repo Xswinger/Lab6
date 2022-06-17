@@ -1,6 +1,7 @@
 package serverPart.commandsClasses;
 
 import dto.*;
+import serverPart.Logger;
 import serverPart.interfaces.CommandManualWithParameters;
 import serverPart.interfaces.CommandScript;
 import serverPart.utils.ChangeFieldValue;
@@ -17,6 +18,7 @@ import static serverPart.Manager.routes;
  * Класс команды update_id
  */
 public class UpdateIdCommand implements CommandManualWithParameters, CommandScript {
+    private static final org.slf4j.Logger logger = Logger.getLogger("UpdateIdCommand");
     /**
      * Метод execute команды update_id
      *
@@ -32,6 +34,7 @@ public class UpdateIdCommand implements CommandManualWithParameters, CommandScri
                     ChangeFieldValue.ChangeFieldValue(routes.stream().filter(
                             route -> id == route.getId()).findFirst().get(), addedRoute, id))));
         }
+        logger.info("Command completed");
         return new ArrayList<>(Collections.singleton(new Message(1, 1, backMessage)));
     }
 
@@ -51,6 +54,7 @@ public class UpdateIdCommand implements CommandManualWithParameters, CommandScri
                     ChangeFieldValue.ChangeFieldValue(routes.stream().filter
                             (route -> id == route.getId()).findFirst().get(), addedRoute, id))));
         }
+        logger.info("Command completed");
         return new ArrayList<>(Collections.singleton(new Message(1, 1, backMessage)));
     }
 }

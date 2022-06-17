@@ -2,6 +2,7 @@ package serverPart.commandsClasses;
 
 import dto.Message;
 import dto.Route;
+import serverPart.Logger;
 import serverPart.interfaces.CommandManualNoParameters;
 
 import java.util.*;
@@ -13,6 +14,7 @@ import static serverPart.Manager.routes;
  * Класс команды print_descending
  */
 public class PrintDescending implements CommandManualNoParameters {
+    private static final org.slf4j.Logger logger = Logger.getLogger("PrintDescending");
     /**
      * Метод execute команды print_descending
      *
@@ -28,6 +30,7 @@ public class PrintDescending implements CommandManualNoParameters {
         List<Route> sortedList = routes.stream().sorted(Comparator.comparing(Route::getName).reversed()).collect(Collectors.toList());
         Collections.reverse(sortedList);
         sortedList.forEach(route -> arrayOfMessage.add(new Message(arrayOfMessage.size() + 1, sortedList.size(), route)));
+        logger.info("Command completed");
         return arrayOfMessage;
     }
 }

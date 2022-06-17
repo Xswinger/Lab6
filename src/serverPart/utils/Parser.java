@@ -1,6 +1,8 @@
 package serverPart.utils;
 
 import dto.Command;
+import dto.Message;
+import serverPart.Logger;
 import serverPart.Manager;
 import dto.Coordinates;
 import dto.locations.locationTo.Location;
@@ -16,6 +18,8 @@ import java.util.*;
  *
  */
 public class Parser {
+
+    private static final org.slf4j.Logger logger = Logger.getLogger("Parser");
     /**
      * Метод для чтения данных из файла
      *
@@ -23,7 +27,8 @@ public class Parser {
      * @return Коллекция элементов
      * @throws IOException
      */
-    public static Command outFile(FileInputStream fileInputStream) throws IOException {
+    public static Message outFile(FileInputStream fileInputStream) throws IOException {
+        logger.info("Reading data from a file");
         try {
             Manager.routes = new HashSet<>();
             Manager.dateOfInitialization = LocalDate.now();
@@ -75,20 +80,25 @@ public class Parser {
                 }
             }
             file.close();
+            logger.info("Reading data from a file");
             if (sizeIsNull) {
-                return new Command("add", "File empty");
-            } else {
-                return new Command("add", "Elements added successfully");
+                return new Message(1,1, "File empty");
+            }
+            else{
+                return new Message(1,1, "Data upload successfully");
             }
         } catch (FileNotFoundException ex) {
             Manager.routes.clear();
-            return new Command("add", "File with this name is not found");
+            logger.warn("File not found");
+            return new Message(1,1, "File with this name is not found");
         } catch (NumberFormatException ex) {
             Manager.routes.clear();
-            return new Command("add", "Invalid input variable format");
+            logger.warn("Invalid input variable format");
+            return new Message(1,1, "Invalid input variable format");
         } catch (WrongInputDataException | IndexOutOfBoundsException | DateTimeParseException ex) {
             Manager.routes.clear();
-            return new Command("add", "Invalid input string format (change input data in your file)");
+            logger.warn("Invalid input string format in file");
+            return new Message(1,1, "Invalid input string format (change input data in your file)");
         }
     }
 
@@ -100,7 +110,8 @@ public class Parser {
      * @return
      * @throws IOException
      */
-    public static String InFile(HashSet<Route> routes, String filename) throws IOException {
+    public static Message InFile(HashSet<Route> routes, String filename) throws IOException {
+        logger.info("Writing data in file");
         try {
             List<String> list = new ArrayList<>();
             for (Route route : routes) {
@@ -133,9 +144,11 @@ public class Parser {
                 i++;
             }
             file.close();
-            return "Collection saved successfully";
+            logger.info("Collection saved successfully");
+            return new Message(1,1,"Collection saved successfully");
         } catch (FileNotFoundException ex) {
-            return "File with that name not found";
+            logger.warn("File not found");
+            return new Message(1,1,"File with that name not found");
         }
     }
 

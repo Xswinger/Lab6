@@ -11,9 +11,12 @@ public class Manager {
     public static HashSet<Route> routes;
     public static LocalDate dateOfInitialization;
 
+    private static final org.slf4j.Logger logger = Logger.getLogger("Manager");
+
     public static void main(String[] args) throws IOException, ClassNotFoundException {
+        logger.info("Start Server");
         while (true) {
-            System.out.println("Waiting to connect...");
+            logger.info("Waiting to connect...");
             Server.receiveData();
         }
     }

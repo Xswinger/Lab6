@@ -2,6 +2,7 @@ package serverPart.commandsClasses;
 
 import dto.Command;
 import dto.Message;
+import serverPart.Logger;
 import serverPart.mainClasses.Invoker;
 import serverPart.exceptions.ScriptUnknownCommandException;
 import serverPart.interfaces.CommandManualWithParameters;
@@ -18,6 +19,7 @@ import static serverPart.utils.Parser.filePath;
  * Класс команды execute_script
  */
 public class ExecuteScriptCommand implements CommandManualWithParameters {
+    private static final org.slf4j.Logger logger = Logger.getLogger("ExecuteScriptCommand");
     /**
      * Метод execute команды execute_script
      *
@@ -39,6 +41,7 @@ public class ExecuteScriptCommand implements CommandManualWithParameters {
                     scriptCommand[0] = new Command(line.split(" ")[0]);
                 }
                 if (Objects.equals(lineParts[0], "execute_script")) {
+                    logger.warn("Execute script command in script");
                     bufferListMessage.add(new Message(1, 1,
                             "Cannot execute script into another script"));
                 }
@@ -54,8 +57,10 @@ public class ExecuteScriptCommand implements CommandManualWithParameters {
             bufferListMessage.get(0).setMessageCount(bufferListMessage.size() + 1);
             bufferListMessage.add(new Message(bufferListMessage.size() + 1,
                     bufferListMessage.size() + 1, "Script execution completed"));
+            logger.warn("Script execution completed");
             return bufferListMessage;
         } catch (FileNotFoundException ex) {
+            logger.warn("The specified file cannot be found");
             return new ArrayList<>(Collections.singleton(new Message(1, 1,
                     "The specified file cannot be found")));
         }

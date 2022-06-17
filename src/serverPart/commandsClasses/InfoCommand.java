@@ -1,6 +1,7 @@
 package serverPart.commandsClasses;
 
 import dto.Message;
+import serverPart.Logger;
 import serverPart.interfaces.CommandManualNoParameters;
 
 import java.util.ArrayList;
@@ -14,6 +15,7 @@ import static serverPart.Manager.dateOfInitialization;
  * Класс команды info
  */
 public class InfoCommand implements CommandManualNoParameters {
+    private static final org.slf4j.Logger logger = Logger.getLogger("InfoCommand");
     /**
      * Метод execute команды info
      *

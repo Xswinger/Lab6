@@ -2,6 +2,7 @@ package serverPart.commandsClasses;
 
 import dto.Id;
 import dto.Message;
+import serverPart.Logger;
 import serverPart.interfaces.CommandManualNoParameters;
 
 import java.util.ArrayList;
@@ -14,6 +15,8 @@ import static serverPart.Manager.routes;
  * Класс команды clear
  */
 public class ClearCommand implements CommandManualNoParameters {
+
+    private static final org.slf4j.Logger logger = Logger.getLogger("ClearCommand");
     /**
      * Метод execute команды clear
      *
@@ -23,6 +26,7 @@ public class ClearCommand implements CommandManualNoParameters {
     public List<Message> executeManual() {
         routes.clear();
         Id.zeroingId();
+        logger.info("Collection cleared");
         return new ArrayList<>(Collections.singleton(new Message(1, 1, "Collection cleared")));
     }
 }

@@ -3,6 +3,7 @@ package serverPart.commandsClasses;
 import dto.Command;
 import dto.Message;
 import dto.Route;
+import serverPart.Logger;
 import serverPart.interfaces.CommandManualWithParameters;
 
 import java.util.ArrayList;
@@ -15,6 +16,7 @@ import static serverPart.Manager.routes;
  * Класс команды filter_by_distance
  */
 public class FilterByDistanceCommand implements CommandManualWithParameters {
+    private static final org.slf4j.Logger logger = Logger.getLogger("FilterByDistanceCommand");
     /**
      * Метод execute команды add
      *

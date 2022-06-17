@@ -1,6 +1,7 @@
 package serverPart.commandsClasses;
 
 import dto.*;
+import serverPart.Logger;
 import serverPart.interfaces.CommandManualWithParameters;
 import serverPart.interfaces.CommandScript;
 import serverPart.utils.AssignmentOfAutomaticallyGeneratedFields;
@@ -17,6 +18,8 @@ import static serverPart.Manager.routes;
  * Класс команды add
  */
 public class AddElementCommand implements CommandManualWithParameters, CommandScript {
+
+    private static final org.slf4j.Logger logger = Logger.getLogger("AddElementCommand");
     /**
      * Метод execute команды add(ручной ввод)
      *
@@ -26,9 +29,11 @@ public class AddElementCommand implements CommandManualWithParameters, CommandSc
     public List<Message> executeManual(Command command) {
         try {
             routes.add(AssignmentOfAutomaticallyGeneratedFields.generate(command.getRouteOfCommand()));
+            logger.info("Element added successfully");
             return new ArrayList<>(Collections.singletonList(new Message(1, 1,
                     "Element added successfully")));
         } catch (NumberFormatException ex) {
+            logger.warn("Invalid input variable format");
             return new ArrayList<>(Collections.singletonList(new Message(1, 1,
                     ex.getMessage() + " - Invalid input variable format")));
         }
