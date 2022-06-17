@@ -15,7 +15,7 @@ public class Client {
 
     private static DatagramChannel datagramChannel;
 
-    private static final String HOST = "helios.cs.ifmo.ru";
+    private static final String HOST = "localhost";
     private static final int PORT = 63226;
 
     private static final SocketAddress serverAddress = new InetSocketAddress(HOST, PORT);
