@@ -5,9 +5,12 @@ import dto.Message;
 
 import static serverPart.Manager.routes;
 
+import serverPart.CommandHandler;
 import serverPart.Logger;
-import serverPart.interfaces.CommandManualWithParameters;
+import serverPart.interfaces.CommandManual;
+import serverPart.mainClasses.Invoker;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -15,8 +18,12 @@ import java.util.List;
 /**
  * Класс команды remove_by_id
  */
-public class RemoveByIdCommand implements CommandManualWithParameters {
+public class RemoveByIdCommand implements CommandHandler {
     private static final org.slf4j.Logger logger = Logger.getLogger("RemoveByIdCommand");
+
+    public RemoveByIdCommand() {
+        Invoker.getInstance().registerHandler(this);
+    }
     /**
      * Метод execute команды remove_by_id
      *
@@ -33,5 +40,15 @@ public class RemoveByIdCommand implements CommandManualWithParameters {
             return new ArrayList<>(Collections.singleton(new Message(1, 1,
                     "Element with this id was not found")));
         }
+    }
+
+    @Override
+    public boolean support(String commandName) {
+        return "remove_by_id".equals(commandName);
+    }
+
+    @Override
+    public List<Message> executeScript(Command command, Object... args) throws IOException {
+        return executeManual(command);
     }
 }

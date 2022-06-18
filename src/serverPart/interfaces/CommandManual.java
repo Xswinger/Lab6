@@ -6,6 +6,6 @@ import dto.Message;
 import java.io.IOException;
 import java.util.List;
 
-public interface CommandManualWithParameters {
+public interface CommandManual {
     List<Message> executeManual(Command command) throws IOException;
 }

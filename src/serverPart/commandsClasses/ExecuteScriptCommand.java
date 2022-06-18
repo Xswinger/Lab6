@@ -2,10 +2,11 @@ package serverPart.commandsClasses;
 
 import dto.Command;
 import dto.Message;
+import serverPart.CommandHandler;
 import serverPart.Logger;
 import serverPart.mainClasses.Invoker;
 import serverPart.exceptions.ScriptUnknownCommandException;
-import serverPart.interfaces.CommandManualWithParameters;
+import serverPart.interfaces.CommandManual;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -18,8 +19,12 @@ import static serverPart.utils.Parser.filePath;
 /**
  * Класс команды execute_script
  */
-public class ExecuteScriptCommand implements CommandManualWithParameters {
+public class ExecuteScriptCommand implements CommandHandler {
     private static final org.slf4j.Logger logger = Logger.getLogger("ExecuteScriptCommand");
+
+    public ExecuteScriptCommand() {
+        Invoker.getInstance().registerHandler(this);
+    }
     /**
      * Метод execute команды execute_script
      *
@@ -40,14 +45,9 @@ public class ExecuteScriptCommand implements CommandManualWithParameters {
                 } else {
                     scriptCommand[0] = new Command(line.split(" ")[0]);
                 }
-                if (Objects.equals(lineParts[0], "execute_script")) {
-                    logger.warn("Execute script command in script");
-                    bufferListMessage.add(new Message(1, 1,
-                            "Cannot execute script into another script"));
-                }
                 List<Message> messages;
                 try {
-                    messages = new Invoker().choiceCommandScript(scriptCommand[0], bufferedReader);
+                    messages = Invoker.getInstance().choiceCommandScript(scriptCommand[0], bufferedReader);
                 } catch (ArrayIndexOutOfBoundsException | NumberFormatException | IOException |
                          ScriptUnknownCommandException e) {
                     throw new RuntimeException(e);
@@ -64,5 +64,19 @@ public class ExecuteScriptCommand implements CommandManualWithParameters {
             return new ArrayList<>(Collections.singleton(new Message(1, 1,
                     "The specified file cannot be found")));
         }
+    }
+
+    @Override
+    public boolean support(String commandName) {
+        return "execute_script".equals(commandName);
+    }
+
+    @Override
+    public List<Message> executeScript(Command command, Object... args) throws IOException {
+        List<Message> bufferListMessage = new ArrayList<>();
+        logger.warn("Execute script command in script");
+        bufferListMessage.add(new Message(1, 1,
+                "Cannot execute script into another script"));
+        return bufferListMessage;
     }
 }

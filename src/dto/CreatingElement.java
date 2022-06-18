@@ -64,9 +64,9 @@ public class CreatingElement {
     private static Route checkFrom(Location from, Object x, String name, Coordinates coordinates, LocalDate creationDate, dto.locations.locationTo.Location to, int distance) {
         Route addedRoute;
         if ("none".equals(x.toString())) {
-            addedRoute = new Route(Id.addId(), name, coordinates, creationDate, to, distance);
+            addedRoute = new Route(IdGenerator.getInstance().addId(), name, coordinates, creationDate, to, distance);
         } else {
-            addedRoute = new Route(Id.addId(), name, coordinates, creationDate, from, to, distance);
+            addedRoute = new Route(IdGenerator.getInstance().addId(), name, coordinates, creationDate, from, to, distance);
         }
         return addedRoute;
     }

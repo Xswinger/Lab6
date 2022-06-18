@@ -114,8 +114,7 @@ public class Route implements Serializable, Comparable {
      * @return boolean
      */
     public static long checkId(long id) {
-        if (id > 0 && Id.getIdSet().add(id)) {
-
+        if (id > 0 && IdGenerator.getInstance().getIdSet().add(id)) {
             return id;
         } else {
             throw new NumberFormatException();
@@ -194,7 +193,7 @@ public class Route implements Serializable, Comparable {
     }
 
     public void setId() {
-        this.id = Id.getId();
+        this.id = IdGenerator.getInstance().getId();
     }
 
     /**

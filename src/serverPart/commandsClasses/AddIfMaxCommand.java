@@ -1,9 +1,11 @@
 package serverPart.commandsClasses;
 
 import dto.*;
+import serverPart.CommandHandler;
 import serverPart.Logger;
-import serverPart.interfaces.CommandManualWithParameters;
+import serverPart.interfaces.CommandManual;
 import serverPart.interfaces.CommandScript;
+import serverPart.mainClasses.Invoker;
 import serverPart.utils.AssignmentOfAutomaticallyGeneratedFields;
 
 import java.io.BufferedReader;
@@ -17,9 +19,13 @@ import static serverPart.Manager.routes;
 /**
  * Класс команды add_if_max
  */
-public class AddIfMaxCommand implements CommandManualWithParameters, CommandScript {
+public class AddIfMaxCommand implements CommandHandler {
 
     private static final org.slf4j.Logger logger = Logger.getLogger("AddIfMaxCommand");
+
+    public AddIfMaxCommand() {
+        Invoker.getInstance().registerHandler(this);
+    }
     /**
      * Метод execute команды add_if_max
      *
@@ -55,5 +61,10 @@ public class AddIfMaxCommand implements CommandManualWithParameters, CommandScri
             return new ArrayList<>(Collections.singletonList(new Message(1, 1,
                     "The element was not added to the collection")));
         }
+    }
+
+    @Override
+    public boolean support(String commandName) {
+        return "add_if_max".equals(commandName);
     }
 }

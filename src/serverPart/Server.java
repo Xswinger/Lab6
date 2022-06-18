@@ -1,7 +1,7 @@
 package serverPart;
 
 import dto.Command;
-import dto.Id;
+import dto.IdGenerator;
 import dto.Message;
 import serverPart.mainClasses.Invoker;
 import serverPart.utils.FileNameTaker;
@@ -51,6 +51,7 @@ public class Server {
         DatagramPacket inputPacket = new DatagramPacket(inputDataBuffer, inputDataBuffer.length);
         DatagramPacket sendingPacket;
         connectionSetup(inputPacket);
+        Invoker.getInstance().initializeCommand();
         while (true) {
             specialCommand();
             logger.info("Waiting new receive...");
@@ -59,7 +60,6 @@ public class Server {
             serverPort = inputPacket.getPort();
             Command command = (Command) Command.deserialize(inputPacket.getData());
             logger.info("New request received");
-            Invoker invoker = new Invoker();
             byte[] sendingDataBuffer;
             if (!checkFileUpload) {
                 logger.info("Executing a request to get filename from environment variable");
@@ -76,27 +76,27 @@ public class Server {
                     "print_descending", "exit"}).noneMatch(s -> s.equals(command.getNameOfCommand()))) {
                 logger.info("Command to execute: '{}', parameter: '{}'", command.getNameOfCommand(),
                         command.getParameterOfCommand());
-                sendingDataBuffer = Message.serialize(invoker.choiceCommandManual(command).get(0));
+                sendingDataBuffer = Message.serialize(Invoker.getInstance().choiceCommandManual(command).get(0));
                 sendingPacket = new DatagramPacket(sendingDataBuffer, sendingDataBuffer.length,
                         senderAddress, serverPort);
                 logger.info("Sending a response");
                 datagramSocket.send(sendingPacket);
             } else if (command.getNameOfCommand().equals("exit")) {
                 logger.info("End of work with the client");
-                Id.zeroingId();
-                Id.zeroingIdSet();
                 checkFileUpload = false;
-                sendingDataBuffer = Message.serialize(invoker.choiceCommandManual(command).get(0));
+                sendingDataBuffer = Message.serialize(Invoker.getInstance().choiceCommandManual(command).get(0));
                 logger.info("Save collection");
                 sendingPacket = new DatagramPacket(sendingDataBuffer, sendingDataBuffer.length,
                         senderAddress, serverPort);
+                IdGenerator.getInstance().zeroingIdSet();
+                IdGenerator.getInstance().zeroingId();
                 datagramSocket.send(sendingPacket);
                 datagramSocket.disconnect();
                 break;
             } else {
                 logger.info("Command to execute: '{}', parameter: '{}'", command.getNameOfCommand(),
                         command.getParameterOfCommand());
-                List<Message> arrayOfMessage = invoker.choiceCommandManual(command);
+                List<Message> arrayOfMessage = Invoker.getInstance().choiceCommandManual(command);
                 int messageCount = arrayOfMessage.get(0).getMessageCount();
                 sendingDataBuffer = Message.serialize(arrayOfMessage.get(0));
                 sendingPacket = new DatagramPacket(sendingDataBuffer, sendingDataBuffer.length,

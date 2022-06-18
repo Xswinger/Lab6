@@ -3,8 +3,9 @@ package serverPart.commandsClasses;
 import dto.Command;
 import dto.Message;
 import dto.Route;
+import serverPart.CommandHandler;
 import serverPart.Logger;
-import serverPart.interfaces.CommandManualWithParameters;
+import serverPart.interfaces.CommandManual;
 import serverPart.interfaces.CommandScript;
 import dto.CreatingElement;
 
@@ -17,7 +18,7 @@ import static serverPart.Manager.routes;
 /**
  * Класс команды remove_greater
  */
-public class RemoveGreaterCommand implements CommandManualWithParameters, CommandScript {
+public class RemoveGreaterCommand implements CommandHandler {
     private static final org.slf4j.Logger logger = Logger.getLogger("RemoveGreaterCommand");
     /**
      * Метод execute команды remove_greater
@@ -41,6 +42,7 @@ public class RemoveGreaterCommand implements CommandManualWithParameters, Comman
         Route addedRoute = CreatingElement.CreatingElementScript(bufferedReader);
         Set<Route> setToRemove = new HashSet<>();
         routes.stream().filter(route -> (addedRoute.getName()).compareTo(route.getName()) < 0).forEach(setToRemove::add);
+        logger.info("Command completed");
         return getMessages(setToRemove);
     }
 
@@ -54,5 +56,10 @@ public class RemoveGreaterCommand implements CommandManualWithParameters, Comman
             return new ArrayList<>(Collections.singleton(new Message(1, 1,
                     "No element removed")));
         }
+    }
+
+    @Override
+    public boolean support(String commandName) {
+        return "remove_greater".equals(commandName);
     }
 }

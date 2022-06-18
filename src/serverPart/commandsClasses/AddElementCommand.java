@@ -1,9 +1,11 @@
 package serverPart.commandsClasses;
 
 import dto.*;
-import serverPart.Logger;
-import serverPart.interfaces.CommandManualWithParameters;
+import org.slf4j.LoggerFactory;
+import serverPart.CommandHandler;
+import serverPart.interfaces.CommandManual;
 import serverPart.interfaces.CommandScript;
+import serverPart.mainClasses.Invoker;
 import serverPart.utils.AssignmentOfAutomaticallyGeneratedFields;
 
 import java.io.BufferedReader;
@@ -17,9 +19,13 @@ import static serverPart.Manager.routes;
 /**
  * Класс команды add
  */
-public class AddElementCommand implements CommandManualWithParameters, CommandScript {
+public class AddElementCommand implements CommandHandler {
 
-    private static final org.slf4j.Logger logger = Logger.getLogger("AddElementCommand");
+    private static final org.slf4j.Logger logger = LoggerFactory.getLogger("AddElementCommand");
+
+    public AddElementCommand() {
+        Invoker.getInstance().registerHandler(this);
+    }
     /**
      * Метод execute команды add(ручной ввод)
      *
@@ -53,5 +59,10 @@ public class AddElementCommand implements CommandManualWithParameters, CommandSc
             return new ArrayList<>(Collections.singletonList(new Message(1, 1,
                     "Error during element creation:\n" + ex.getMessage() + " - Invalid input variable format")));
         }
+    }
+
+    @Override
+    public boolean support(String commandName) {
+        return "add".equals(commandName);
     }
 }

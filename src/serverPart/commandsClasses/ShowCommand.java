@@ -1,11 +1,15 @@
 package serverPart.commandsClasses;
 
 
+import dto.Command;
 import dto.Message;
 import dto.Route;
+import serverPart.CommandHandler;
 import serverPart.Logger;
-import serverPart.interfaces.CommandManualNoParameters;
+import serverPart.interfaces.CommandManual;
+import serverPart.mainClasses.Invoker;
 
+import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -14,15 +18,19 @@ import static serverPart.Manager.routes;
 /**
  * Класс команды show
  */
-public class ShowCommand implements CommandManualNoParameters {
+public class ShowCommand implements CommandHandler {
     private static final org.slf4j.Logger logger = Logger.getLogger("ShowCommand");
+
+    public ShowCommand() {
+        Invoker.getInstance().registerHandler(this);
+    }
     /**
      * Метод execute команды show
      *
      * @return Message[]
      */
     @Override
-    public List<Message> executeManual() {
+    public List<Message> executeManual(Command command) {
         if (routes.size() != 0) {
             List<Message> arrayOfMessages = new ArrayList<>();
             arrayOfMessages.add(new Message(1, routes.size() + 1,
@@ -38,5 +46,15 @@ public class ShowCommand implements CommandManualNoParameters {
                     "The collection has no elements")));
         }
 
+    }
+
+    @Override
+    public boolean support(String commandName) {
+        return "show".equals(commandName);
+    }
+
+    @Override
+    public List<Message> executeScript(Command command, Object... args) throws IOException {
+        return executeManual(command);
     }
 }
