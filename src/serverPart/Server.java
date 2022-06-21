@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Server {
-    private static int serverPort = 63226;
+    private static int serverPort = 63228;
     private static final DatagramSocket datagramSocket;
 
     static {
@@ -85,7 +85,6 @@ public class Server {
                 logger.info("End of work with the client");
                 checkFileUpload = false;
                 sendingDataBuffer = Message.serialize(Invoker.getInstance().choiceCommandManual(command).get(0));
-                logger.info("Save collection");
                 sendingPacket = new DatagramPacket(sendingDataBuffer, sendingDataBuffer.length,
                         senderAddress, serverPort);
                 IdGenerator.getInstance().zeroingIdSet();

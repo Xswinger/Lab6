@@ -35,7 +35,7 @@ public class PrintDescending implements CommandHandler {
             return new ArrayList<>(Collections.singleton(new Message(1, 1,
                     "Cannot sort: collection is empty")));
         }
-        List<Route> sortedList = routes.stream().sorted(Comparator.comparing(Route::getName).reversed()).collect(Collectors.toList());
+        List<Route> sortedList = routes.stream().sorted(Comparator.comparing(Route::getSize)).collect(Collectors.toList());
         Collections.reverse(sortedList);
         sortedList.forEach(route -> arrayOfMessage.add(new Message(arrayOfMessage.size() + 1, sortedList.size(), route)));
         logger.info("Command completed");

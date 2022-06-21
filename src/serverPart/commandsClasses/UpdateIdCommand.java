@@ -38,7 +38,7 @@ public class UpdateIdCommand implements CommandHandler {
     }
 
     /**
-     * Метод execute команды update_id
+     * Метод execute команды update
      *
      * @return Message[]
      */
@@ -63,6 +63,6 @@ public class UpdateIdCommand implements CommandHandler {
 
     @Override
     public boolean support(String commandName) {
-        return "update_id".equals(commandName);
+        return "update".equals(commandName);
     }
 }

@@ -8,6 +8,7 @@ import serverPart.Logger;
 import serverPart.interfaces.CommandManual;
 import serverPart.interfaces.CommandScript;
 import dto.CreatingElement;
+import serverPart.mainClasses.Invoker;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -20,6 +21,10 @@ import static serverPart.Manager.routes;
  */
 public class RemoveGreaterCommand implements CommandHandler {
     private static final org.slf4j.Logger logger = Logger.getLogger("RemoveGreaterCommand");
+
+    public RemoveGreaterCommand() {
+        Invoker.getInstance().registerHandler(this);
+    }
     /**
      * Метод execute команды remove_greater
      *
